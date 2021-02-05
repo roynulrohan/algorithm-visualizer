@@ -1,4 +1,4 @@
-export const quickSort = async (inputArr, callback) => {
+export const quickSort = async (inputArr, callback, timeInterval) => {
     const partition = async (items, left, right) => {
         let pivot = items[Math.floor((right + left) / 2)].value, //middle element
             i = left, //left pointer
@@ -13,7 +13,7 @@ export const quickSort = async (inputArr, callback) => {
             }
 
             if (i <= j) {
-                await new Promise((resolve) => setTimeout(resolve, 50));
+                await new Promise((resolve) => setTimeout(resolve, timeInterval || 50));
                 items[i].className = 'bg-primary';
                 items[j].className = 'bg-primary';
 

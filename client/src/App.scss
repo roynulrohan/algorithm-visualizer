@@ -39,7 +39,9 @@
             align-items: center;
         }
 
-        .selected-label {
+        .custom-label {
+            width: fit-content !important;
+
             .input-group-text {
                 background-color: rgb(34, 34, 34) !important;
                 color: $secondary;

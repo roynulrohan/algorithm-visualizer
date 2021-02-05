@@ -6,6 +6,7 @@ function App() {
     const [dataRange, setDataRange] = useState(120);
     const [isSorting, setIsSorting] = useState(false);
     const [currentMode, setCurrentMode] = useState('Bubble Sort');
+    const [timeInterval, setTimeInterval] = useState(50);
 
     useEffect(() => {
         setGraphData(getRandomData(dataRange));
@@ -27,12 +28,12 @@ function App() {
 
             switch (currentMode) {
                 case 'Bubble Sort':
-                    bubbleSort(graphData, setGraphData).then(() => {
+                    bubbleSort(graphData, setGraphData, timeInterval).then(() => {
                         setIsSorting(false);
                     });
                     break;
                 case 'Quick Sort':
-                    quickSort(graphData, setGraphData).then(() => {
+                    quickSort(graphData, setGraphData, timeInterval).then(() => {
                         setIsSorting(false);
                     });
                     break;
@@ -44,23 +45,41 @@ function App() {
         <div className='App'>
             <div className='App__Graph'>
                 {graphData.map((element) => {
-                    return (
-                        <span
-                            className={isSorting && element.className}
-                            style={{ height: `${(element.value)}%` }}
-                        ></span>
-                    );
+                    return <span className={isSorting && element.className} style={{ height: `${element.value}%` }}></span>;
                 })}
             </div>
             <div className='App__Menu'>
-                <div className='menu-container'>
-                    <div className='w-100 text-center'>
-                        <label for='dataRangeSlider' class='form-label'>
-                            {dataRange}
-                        </label>
+                <div className='menu-container flex-column p-3'>
+                    <div className='w-100'>
+                        <div class='custom-label input-group mb-1'>
+                            <div class='input-group-prepend'>
+                                <label className='input-group-text'>Time Interval</label>
+                            </div>
+                            <label className='form-control'>{timeInterval} ms</label>
+                        </div>
                         <input
                             type='range'
-                            className='custom-range dataRangeSlider'
+                            className='custom-range w-100'
+                            min='0'
+                            max='100'
+                            value={timeInterval}
+                            id='timeIntervalSlider'
+                            onChange={(ev) => {
+                                setTimeInterval(ev.target.value);
+                            }}
+                            disabled={isSorting}
+                        />
+                    </div>
+                    <div className='w-100'>
+                        <div class='custom-label input-group mb-1'>
+                            <div class='input-group-prepend'>
+                                <label className='input-group-text'>Number of bars</label>
+                            </div>
+                            <label className='form-control'>{dataRange}</label>
+                        </div>
+                        <input
+                            type='range'
+                            className='custom-range w-100'
                             min='10'
                             max='200'
                             value={dataRange}
@@ -90,7 +109,7 @@ function App() {
                     </button>
                 </div>
                 <div className='menu-container flex-column'>
-                    <div class='selected-label input-group w-auto mb-3'>
+                    <div class='custom-label input-group w-auto mb-3'>
                         <div class='input-group-prepend'>
                             <label className='input-group-text'>Selected</label>
                         </div>
