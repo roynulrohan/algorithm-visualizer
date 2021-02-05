@@ -4,7 +4,7 @@ A web app with the purpose of visualizing sorting algorithms, developed with Rea
 
 **Algorithms**
 - [x] Bubble sort
-- [ ] Quicksort
+- [x] Quicksort
 - [ ] Selection sort
 - [ ] Insertion sort
 - [ ] Merge sort

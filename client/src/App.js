@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { bubbleSort, quickSort } from './algorithms';
 
 function App() {
     const [graphData, setGraphData] = useState([]);
-    const [dataRange, setDataRange] = useState(100);
+    const [dataRange, setDataRange] = useState(120);
     const [isSorting, setIsSorting] = useState(false);
+    const [currentMode, setCurrentMode] = useState('Bubble Sort');
 
     useEffect(() => {
         setGraphData(getRandomData(dataRange));
@@ -22,28 +24,18 @@ function App() {
     const sort = () => {
         if (!isSorting) {
             setIsSorting(true);
-            bubbleSort(graphData).then(() => {
-                setIsSorting(false);
-            });
-        }
-    };
 
-    const bubbleSort = async (inputArr) => {
-        let len = inputArr.length - 1;
-        for (let i = 0; i < len; i++) {
-            for (let j = 0; j < len; j++) {
-                if (inputArr[j].value > inputArr[j + 1].value) {
-                    await new Promise((resolve) => setTimeout(resolve, 5));
-
-                    inputArr[j + 1].className = 'bg-primary';
-
-                    let tmp = inputArr[j].value;
-                    inputArr[j].value = inputArr[j + 1].value;
-                    inputArr[j + 1].value = tmp;
-
-                    setGraphData([...graphData]);
-                    inputArr[j + 1].className = '';
-                }
+            switch (currentMode) {
+                case 'Bubble Sort':
+                    bubbleSort(graphData, setGraphData).then(() => {
+                        setIsSorting(false);
+                    });
+                    break;
+                case 'Quick Sort':
+                    quickSort(graphData, setGraphData).then(() => {
+                        setIsSorting(false);
+                    });
+                    break;
             }
         }
     };
@@ -52,7 +44,12 @@ function App() {
         <div className='App'>
             <div className='App__Graph'>
                 {graphData.map((element) => {
-                    return <span className={element.className} style={{ height: `${element.value}%` }}></span>;
+                    return (
+                        <span
+                            className={isSorting && element.className}
+                            style={{ height: `${(element.value)}%` }}
+                        ></span>
+                    );
                 })}
             </div>
             <div className='App__Menu'>
@@ -65,7 +62,7 @@ function App() {
                             type='range'
                             className='custom-range dataRangeSlider'
                             min='10'
-                            max='100'
+                            max='200'
                             value={dataRange}
                             id='dataRangeSlider'
                             onChange={(ev) => {
@@ -75,15 +72,51 @@ function App() {
                         />
                     </div>
                 </div>
-                <div className='menu-container'>
+                <div className='menu-container flex-column'>
                     <button
                         className={'btn rounded mx-5 w-50 h-50' + (isSorting ? ' btn-dark' : ' btn-primary')}
                         onClick={() => sort()}
                     >
                         {isSorting ? 'Sorting' : 'Sort'}
                     </button>
+                    <button
+                        className='btn btn-outline-secondary m-1 mx-5 w-50'
+                        onClick={() => {
+                            setGraphData(getRandomData(dataRange));
+                        }}
+                        disabled={isSorting}
+                    >
+                        Randomize
+                    </button>
                 </div>
-                <div className='menu-container'></div>
+                <div className='menu-container flex-column'>
+                    <div class='selected-label input-group w-auto mb-3'>
+                        <div class='input-group-prepend'>
+                            <label className='input-group-text'>Selected</label>
+                        </div>
+                        <label className='form-control'>{currentMode}</label>
+                    </div>
+                    <div>
+                        <button
+                            className='btn btn-primary m-1'
+                            onClick={() => {
+                                setCurrentMode('Bubble Sort');
+                            }}
+                            disabled={isSorting}
+                        >
+                            Bubble Sort
+                        </button>
+                        <button
+                            className='btn btn-primary m-1'
+                            onClick={() => {
+                                setCurrentMode('Quick Sort');
+                            }}
+                            disabled={isSorting}
+                        >
+                            Quick Sort
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     );

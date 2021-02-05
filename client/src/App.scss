@@ -1,7 +1,7 @@
 .App {
     width: 100%;
     height: 100vh;
-    background-color: rgb(34, 34, 34);
+    background-color: rgb(22, 22, 22);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -17,14 +17,14 @@
 
         span {
             background-color: $secondary;
-            margin: 2px;
+            border: 1px rgb(0, 136, 72) solid;
             border-radius: 0.2rem;
             width: 100%;
         }
     }
 
     &__Menu {
-        padding: 20px;
+        padding: 0px 20px 20px 20px;
         height: 15%;
         width: 100%;
         display: flex;
@@ -37,6 +37,20 @@
             display: flex;
             justify-content: center;
             align-items: center;
+        }
+
+        .selected-label {
+            .input-group-text {
+                background-color: rgb(34, 34, 34) !important;
+                color: $secondary;
+                border: none;
+            }
+
+            .form-control {
+                background-color: rgb(34, 34, 34) !important;
+                color: $primary;
+                border: none;
+            }
         }
     }
 }
