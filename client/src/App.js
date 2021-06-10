@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { bubbleSort, quickSort } from './algorithms';
+import { bubbleSort, quickSort, selectionSort } from './algorithms';
 
 function App() {
     const [graphData, setGraphData] = useState([]);
     const [dataRange, setDataRange] = useState(120);
     const [isSorting, setIsSorting] = useState(false);
     const [currentMode, setCurrentMode] = useState('Bubble Sort');
-    const [timeInterval, setTimeInterval] = useState(20);
+    const [timeInterval, setTimeInterval] = useState(10);
 
     useEffect(() => {
         setGraphData(getRandomData(dataRange));
@@ -34,6 +34,11 @@ function App() {
                     break;
                 case 'Quick Sort':
                     quickSort(graphData, setGraphData, timeInterval).then(() => {
+                        setIsSorting(false);
+                    });
+                    break;
+                case 'Selection Sort':
+                    selectionSort(graphData, setGraphData, timeInterval).then(() => {
                         setIsSorting(false);
                     });
                     break;
@@ -133,6 +138,15 @@ function App() {
                             disabled={isSorting}
                         >
                             Quick Sort
+                        </button>
+                        <button
+                            className='btn btn-primary m-1'
+                            onClick={() => {
+                                setCurrentMode('Selection Sort');
+                            }}
+                            disabled={isSorting}
+                        >
+                            Selection Sort
                         </button>
                     </div>
                 </div>
