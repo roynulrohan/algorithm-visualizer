@@ -6,7 +6,7 @@ function App() {
     const [dataRange, setDataRange] = useState(120);
     const [isSorting, setIsSorting] = useState(false);
     const [currentMode, setCurrentMode] = useState('Bubble Sort');
-    const [timeInterval, setTimeInterval] = useState(50);
+    const [timeInterval, setTimeInterval] = useState(20);
 
     useEffect(() => {
         setGraphData(getRandomData(dataRange));
@@ -45,14 +45,14 @@ function App() {
         <div className='App'>
             <div className='App__Graph'>
                 {graphData.map((element) => {
-                    return <span className={isSorting && element.className} style={{ height: `${element.value}%` }}></span>;
+                    return <span className={element.className} style={{ height: `${element.value}%` }}></span>;
                 })}
             </div>
             <div className='App__Menu'>
                 <div className='menu-container flex-column p-3'>
                     <div className='w-100'>
-                        <div class='custom-label input-group mb-1'>
-                            <div class='input-group-prepend'>
+                        <div className='custom-label input-group mb-1'>
+                            <div className='input-group-prepend'>
                                 <label className='input-group-text'>Time Interval</label>
                             </div>
                             <label className='form-control'>{timeInterval} ms</label>
@@ -71,8 +71,8 @@ function App() {
                         />
                     </div>
                     <div className='w-100'>
-                        <div class='custom-label input-group mb-1'>
-                            <div class='input-group-prepend'>
+                        <div className='custom-label input-group mb-1'>
+                            <div className='input-group-prepend'>
                                 <label className='input-group-text'>Number of bars</label>
                             </div>
                             <label className='form-control'>{dataRange}</label>
@@ -93,7 +93,7 @@ function App() {
                 </div>
                 <div className='menu-container flex-column'>
                     <button
-                        className={'btn rounded mx-5 w-50 h-50' + (isSorting ? ' btn-dark' : ' btn-primary')}
+                        className={'btn rounded mx-5 w-50 h-50' + (isSorting ? ' btn-danger' : ' btn-primary')}
                         onClick={() => sort()}
                     >
                         {isSorting ? 'Sorting' : 'Sort'}
@@ -109,8 +109,8 @@ function App() {
                     </button>
                 </div>
                 <div className='menu-container flex-column'>
-                    <div class='custom-label input-group w-auto mb-3'>
-                        <div class='input-group-prepend'>
+                    <div className='custom-label input-group w-auto mb-3'>
+                        <div className='input-group-prepend'>
                             <label className='input-group-text'>Selected</label>
                         </div>
                         <label className='form-control'>{currentMode}</label>
