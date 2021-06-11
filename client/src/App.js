@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { bubbleSort, quickSort, selectionSort, insertionSort } from './algorithms';
+import { getFromStorage, setInStorage } from './utils/localStorage';
 
 function App() {
     const [graphData, setGraphData] = useState([]);
@@ -9,7 +10,37 @@ function App() {
     const [timeInterval, setTimeInterval] = useState(10);
 
     useEffect(() => {
-        setGraphData(getRandomData(dataRange));
+        const graphDataObj = getFromStorage('algorithm-visualizer-rr_GraphData');
+
+        if (graphDataObj) {
+            setGraphData(graphDataObj.graphData);
+        } else {
+            setGraphData(getRandomData(dataRange));
+        }
+        const dataRangeObj = getFromStorage('algorithm-visualizer-rr_DataRange');
+
+        if (dataRangeObj) {
+            setDataRange(dataRangeObj.dataRange);
+        }
+        const timeIntervalObj = getFromStorage('algorithm-visualizer-rr_TimeInterval');
+
+        if (timeIntervalObj) {
+            setTimeInterval(timeIntervalObj.timeInterval);
+        }
+        const currentModeObj = getFromStorage('algorithm-visualizer-rr_CurrentMode');
+
+        if (currentModeObj) {
+            setCurrentMode(currentModeObj.currentMode);
+        }
+    }, []);
+
+    useEffect(() => {
+        const data = getRandomData(dataRange);
+        setGraphData(data);
+
+        setInStorage('algorithm-visualizer-rr_GraphData', {
+            graphData: data,
+        });
     }, [dataRange]);
 
     const getRandomData = (limit) => {
@@ -55,11 +86,15 @@ function App() {
         <div className='App'>
             <div className='App__Graph'>
                 {graphData.map((element) => {
-                    return <span className={element.className} style={{ height: `${element.value}%` }}></span>;
+                    return (
+                        <span className={element.className} style={{ height: `${element.value}%` }}>
+                            {dataRange <= 60 && <p>{element.value}</p>}
+                        </span>
+                    );
                 })}
             </div>
             <div className='App__Menu'>
-                <div className='menu-container flex-column p-3'>
+                <div className='menu-container flex-column'>
                     <div className='w-100'>
                         <div className='custom-label input-group mb-1'>
                             <div className='input-group-prepend'>
@@ -70,12 +105,16 @@ function App() {
                         <input
                             type='range'
                             className='custom-range w-100'
-                            min='0'
+                            min='2'
                             max='100'
                             value={timeInterval}
                             id='timeIntervalSlider'
                             onChange={(ev) => {
                                 setTimeInterval(ev.target.value);
+
+                                setInStorage('algorithm-visualizer-rr_TimeInterval', {
+                                    timeInterval: ev.target.value,
+                                });
                             }}
                             disabled={isSorting}
                         />
@@ -96,6 +135,10 @@ function App() {
                             id='dataRangeSlider'
                             onChange={(ev) => {
                                 setDataRange(ev.target.value);
+
+                                setInStorage('algorithm-visualizer-rr_DataRange', {
+                                    dataRange: ev.target.value,
+                                });
                             }}
                             disabled={isSorting}
                         />
@@ -109,9 +152,14 @@ function App() {
                         {isSorting ? 'Sorting' : 'Sort'}
                     </button>
                     <button
-                        className='btn btn-outline-secondary m-1 mx-5 w-50'
+                        className='btn btn-secondary m-1 mx-5 w-50'
                         onClick={() => {
-                            setGraphData(getRandomData(dataRange));
+                            const data = getRandomData(dataRange);
+                            setGraphData(data);
+
+                            setInStorage('algorithm-visualizer-rr_GraphData', {
+                                graphData: data,
+                            });
                         }}
                         disabled={isSorting}
                     >
@@ -130,6 +178,10 @@ function App() {
                             className='btn btn-primary m-1'
                             onClick={() => {
                                 setCurrentMode('Bubble Sort');
+
+                                setInStorage('algorithm-visualizer-rr_CurrentMode', {
+                                    currentMode: 'Bubble Sort',
+                                });
                             }}
                             disabled={isSorting}
                         >
@@ -139,6 +191,10 @@ function App() {
                             className='btn btn-primary m-1'
                             onClick={() => {
                                 setCurrentMode('Quick Sort');
+
+                                setInStorage('algorithm-visualizer-rr_CurrentMode', {
+                                    currentMode: 'Quick Sort',
+                                });
                             }}
                             disabled={isSorting}
                         >
@@ -148,6 +204,10 @@ function App() {
                             className='btn btn-primary m-1'
                             onClick={() => {
                                 setCurrentMode('Selection Sort');
+
+                                setInStorage('algorithm-visualizer-rr_CurrentMode', {
+                                    currentMode: 'Selection Sort',
+                                });
                             }}
                             disabled={isSorting}
                         >
@@ -157,6 +217,10 @@ function App() {
                             className='btn btn-primary m-1'
                             onClick={() => {
                                 setCurrentMode('Insertion Sort');
+
+                                setInStorage('algorithm-visualizer-rr_CurrentMode', {
+                                    currentMode: 'Insertion Sort',
+                                });
                             }}
                             disabled={isSorting}
                         >

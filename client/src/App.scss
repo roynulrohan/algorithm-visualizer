@@ -1,14 +1,14 @@
 .App {
     width: 100%;
     height: 100vh;
-    background-color: rgb(22, 22, 22);
+    background-color: rgb(15, 15, 15);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
 
     &__Graph {
-        padding: 20px;
+        padding: 50px;
         height: 85%;
         width: 100%;
         display: flex;
@@ -16,10 +16,18 @@
         justify-content: space-between;
 
         span {
-            background-color: $secondary;
-            border: 1px rgb(0, 136, 72) solid;
-            border-radius: 0.2rem;
+            background-color: rgb(63, 63, 63);
+            border: 1px rgb(27, 27, 27) solid;
+            border-radius: 0.3rem;
             width: 100%;
+            display: flex;
+            justify-content: center;
+
+            p {
+                margin-top: .5rem;
+                color: $secondary;
+                font-size: .8em;
+            }
         }
     }
 
@@ -49,7 +57,7 @@
             }
 
             .form-control {
-                background-color: rgb(34, 34, 34) !important;
+                background-color: rgb(65, 52, 52) !important;
                 color: $primary;
                 border: none;
             }
