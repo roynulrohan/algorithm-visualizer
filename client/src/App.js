@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { bubbleSort, quickSort, selectionSort } from './algorithms';
+import { bubbleSort, quickSort, selectionSort, insertionSort } from './algorithms';
 
 function App() {
     const [graphData, setGraphData] = useState([]);
@@ -39,6 +39,11 @@ function App() {
                     break;
                 case 'Selection Sort':
                     selectionSort(graphData, setGraphData, timeInterval).then(() => {
+                        setIsSorting(false);
+                    });
+                    break;
+                case 'Insertion Sort':
+                    insertionSort(graphData, setGraphData, timeInterval).then(() => {
                         setIsSorting(false);
                     });
                     break;
@@ -147,6 +152,15 @@ function App() {
                             disabled={isSorting}
                         >
                             Selection Sort
+                        </button>
+                        <button
+                            className='btn btn-primary m-1'
+                            onClick={() => {
+                                setCurrentMode('Insertion Sort');
+                            }}
+                            disabled={isSorting}
+                        >
+                            Insertion Sort
                         </button>
                     </div>
                 </div>
