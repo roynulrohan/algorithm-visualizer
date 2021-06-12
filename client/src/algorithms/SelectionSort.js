@@ -1,3 +1,10 @@
+import store from '../reduxStore';
+
+let state;
+store.subscribe(() => {
+    state = store.getState();
+});
+
 export const selectionSort = async (inputArr, callback, timeInterval) => {
     let n = inputArr.length;
 
@@ -7,6 +14,10 @@ export const selectionSort = async (inputArr, callback, timeInterval) => {
         for (let j = i + 1; j < n; j++) {
             if (inputArr[j].value < inputArr[min].value) {
                 min = j;
+            }
+            
+            if (!state.sorting) {
+                return;
             }
         }
         if (min != i) {
@@ -22,6 +33,10 @@ export const selectionSort = async (inputArr, callback, timeInterval) => {
 
             inputArr[i].className = ' ';
             inputArr[min].className = ' ';
+
+            if (!state.sorting) {
+                return;
+            }
         }
     }
 };

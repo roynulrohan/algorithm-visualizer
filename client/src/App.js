@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { bubbleSort, quickSort, selectionSort, insertionSort } from './algorithms';
 import { getFromStorage, setInStorage } from './utils/localStorage';
+import { useDispatch } from 'react-redux';
 
 function App() {
     const [graphData, setGraphData] = useState([]);
@@ -8,6 +9,7 @@ function App() {
     const [isSorting, setIsSorting] = useState(false);
     const [currentMode, setCurrentMode] = useState('Bubble Sort');
     const [timeInterval, setTimeInterval] = useState(10);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const graphDataObj = getFromStorage('algorithm-visualizer-rr_GraphData');
@@ -55,6 +57,7 @@ function App() {
 
     const sort = () => {
         if (!isSorting) {
+            dispatch({ type: 'START' });
             setIsSorting(true);
 
             switch (currentMode) {
@@ -79,6 +82,8 @@ function App() {
                     });
                     break;
             }
+        } else {
+            dispatch({ type: 'STOP' });
         }
     };
 
@@ -149,7 +154,7 @@ function App() {
                         className={'btn rounded mx-5 w-50 h-50' + (isSorting ? ' btn-danger' : ' btn-primary')}
                         onClick={() => sort()}
                     >
-                        {isSorting ? 'Sorting' : 'Sort'}
+                        {isSorting ? 'Stop' : 'Sort'}
                     </button>
                     <button
                         className='btn btn-secondary m-1 mx-5 w-50'

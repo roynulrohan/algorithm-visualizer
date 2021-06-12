@@ -1,3 +1,10 @@
+import store from '../reduxStore';
+
+let state;
+store.subscribe(() => {
+    state = store.getState();
+});
+
 export const bubbleSort = async (inputArr, callback, timeInterval) => {
     let len = inputArr.length - 1;
     for (let i = 0; i < len; i++) {
@@ -13,6 +20,10 @@ export const bubbleSort = async (inputArr, callback, timeInterval) => {
 
                 callback([...inputArr]);
                 inputArr[j + 1].className = '';
+            }
+
+            if (!state.sorting) {
+                return;
             }
         }
     }

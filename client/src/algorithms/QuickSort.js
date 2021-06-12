@@ -1,3 +1,10 @@
+import store from '../reduxStore';
+
+let state;
+store.subscribe(() => {
+    state = store.getState();
+});
+
 export const quickSort = async (inputArr, callback, timeInterval) => {
     const partition = async (items, left, right) => {
         let pivot = items[Math.floor((right + left) / 2)].value, //middle element
@@ -5,6 +12,10 @@ export const quickSort = async (inputArr, callback, timeInterval) => {
             j = right; //right pointer
 
         while (i <= j) {
+            if (!state.sorting) {
+                return;
+            }
+
             while (items[i].value < pivot) {
                 i++;
             }
@@ -46,6 +57,10 @@ export const quickSort = async (inputArr, callback, timeInterval) => {
         if (index < right) {
             //more elements on the right side of the pivot
             await solve(items, index, right);
+        }
+
+        if (!state.sorting) {
+            return;
         }
     };
 

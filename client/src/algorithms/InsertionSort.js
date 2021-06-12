@@ -1,3 +1,10 @@
+import store from '../reduxStore';
+
+let state;
+store.subscribe(() => {
+    state = store.getState();
+});
+
 export const insertionSort = async (inputArr, callback, timeInterval) => {
     let n = inputArr.length;
 
@@ -17,8 +24,12 @@ export const insertionSort = async (inputArr, callback, timeInterval) => {
             callback([...inputArr]);
             inputArr[j + 1].className = ' ';
             inputArr[i].className = ' ';
-            
+
             j--;
+
+            if (!state.sorting) {
+                return;
+            }
         }
 
         inputArr[j + 1].value = current;
